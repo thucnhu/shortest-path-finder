@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
 export default function GraphBoard() {
-   return (
-      <div className="basis-3 grow bg-gray-500">
-         <h1>GraphBoard</h1>
-      </div>
-   )
+	return (
+		<div className='border-2 border-black h-full min-w-[30rem] w-full rounded-md'>
+			<h1>GraphBoard</h1>
+		</div>
+	)
 }
