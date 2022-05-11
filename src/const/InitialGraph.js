@@ -12,11 +12,19 @@ const initialNodes = [
     data: { label: <div>B</div> },
     position: { x: 100, y: 125 },
   },
+
   {
     id: '3',
     // type: 'output',
     data: { label: 'C' },
     position: { x: 250, y: 250 },
+  },
+
+  {
+    id: '4',
+    // type: 'output',
+    data: { label: 'D' },
+    position: { x: 0, y: 0 },
   },
 ];
 

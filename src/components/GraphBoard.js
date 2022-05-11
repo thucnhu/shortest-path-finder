@@ -3,6 +3,7 @@ import ReactFlow, { Controls, Background } from 'react-flow-renderer'
 import {applyEdgeChanges, applyNodeChanges, addEdge, } from 'react-flow-renderer'
 
 import { initialEdges, initialNodes } from '../const/InitialGraph'
+import './GraphBoard.css'
 
 
 export default function GraphBoard() {
