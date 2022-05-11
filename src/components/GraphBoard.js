@@ -27,7 +27,7 @@ export default function GraphBoard() {
 	)
 
 	return (
-		<div className='border-2 border-black h-full min-w-[30rem] w-full rounded-md'>
+		<div className='border-2 border-black h-full w-full rounded-md mx-auto'>
 			<ReactFlow
 				nodes={nodes}
 				edges={edges}

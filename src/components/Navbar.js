@@ -1,18 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Navbar from 'react-bootstrap/Navbar'
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
 
-export default function Navbar() {
+export default function NavigationBar() {
 	return (
-		<nav className='h-10 z-10 w-full sticky top-0 bg-brand-green flex flex-row justify-between items-center text-white font-bold px-56'>
-			<Link to='/' className='hover:text-gray-100 cursor-pointer transition'>
-				Shortest path finder
-			</Link>
-			<Link
-				to='/about'
-				className='hover:text-gray-100 cursor-pointer transition'
-			>
-				About
-			</Link>
-		</nav>
+		<Navbar bg='light' expand='lg'>
+			<Container>
+				<Navbar.Brand href='#home'>Shortest Path Finder</Navbar.Brand>
+				<Navbar.Toggle aria-controls='basic-navbar-nav' />
+				<Navbar.Collapse id='basic-navbar-nav'>
+					<Nav className='me-auto'>
+						<Nav.Link href='/'>Home</Nav.Link>
+						<Nav.Link href='/about'>About</Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
 	)
 }
