@@ -7,6 +7,8 @@ import {
 } from 'react-flow-renderer'
 import { initialEdges, initialNodes } from '../constant/initialGraph'
 
+import './GraphBoard.css'
+
 export default function GraphBoard() {
 	const [nodes, setNodes] = useState(initialNodes)
 	const [edges, setEdges] = useState(initialEdges)
