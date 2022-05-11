@@ -1,7 +1,9 @@
+let nodeLabels = require('../constant/nodeLabels')
+
 /**
  * A class that represents a graph using adjacency list
  */
-export default class Graph {
+class Graph {
 	/**
 	 * A graph is initialized with a single default node "A" and no edges
 	 */
@@ -64,31 +66,4 @@ export default class Graph {
 	}
 }
 
-const nodeLabels = [
-	'A',
-	'B',
-	'C',
-	'D',
-	'E',
-	'F',
-	'G',
-	'H',
-	'I',
-	'J',
-	'K',
-	'L',
-	'M',
-	'N',
-	'O',
-	'P',
-	'Q',
-	'R',
-	'S',
-	'T',
-	'U',
-	'V',
-	'W',
-	'X',
-	'Y',
-	'Z',
-]
+module.exports = Graph
