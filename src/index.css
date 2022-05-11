@@ -3,23 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-	h3 {
-		@apply text-lg font-bold;
-	}
-}
-
-@layer components {
-	.btn-primary {
-		@apply w-24 h-9 rounded transition shadow-md cursor-pointer;
-	}
-
-	.btn-grey {
-		@apply bg-brand-grey hover:bg-gray-300 btn-primary;
-	}
-
-	.btn-green {
-		@apply bg-brand-green text-white hover:bg-green-600 btn-primary;
-	}
-}

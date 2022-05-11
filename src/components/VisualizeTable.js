@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Button from 'react-bootstrap/Button'
 
 export default function VisualizeTable() {
 	const [startVertex, setStartVertex] = useState('')
@@ -6,8 +7,8 @@ export default function VisualizeTable() {
 	const [isInvalid, setIsInvalid] = useState(false)
 
 	return (
-		<div className='bg-brand-grey w-56 h-64 rounded-md mb-6 p-5 flex flex-col items-center justify-evenly'>
-			<h3 className='text-center'>Find shortest path</h3>
+		<div className='bg-brand-grey w-56 h-64 rounded-md p-4 flex flex-col items-center justify-evenly'>
+			<h5 className='text-center'>Find shortest path</h5>
 			<div className='w-full'>
 				<div className='flex flex-row justify-between items-center mb-2'>
 					<label>From vertex:</label>
@@ -31,7 +32,7 @@ export default function VisualizeTable() {
 				</div>
 				{isInvalid && <p className='text-red-600 mb-2'>Invalid vertex!</p>}
 			</div>
-			<button className='btn-green mx-auto'>Visualize</button>
+			<Button variant='success'>Visualize</Button>
 		</div>
 	)
 }
