@@ -17,6 +17,9 @@ export default function GraphBoard() {
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
 
+	const [removeDisabled, setRemoveDisabled] = useState(true)
+	const [clearDisabled, setClearDisabled] = useState(true)
+
 	const onNodesChange = useCallback(
 		changes => setNodes(nds => applyNodeChanges(changes, nds)),
 		[setNodes]
@@ -103,7 +106,14 @@ export default function GraphBoard() {
 				<Background />
 			</ReactFlow>
 
-			<Button onClick={test}>Test</Button>
+			<div className='flex flex-row justify-center my-3'>
+				<Button variant='dark' disabled={removeDisabled} className='mx-4'>
+					Remove
+				</Button>
+				<Button variant='dark' disabled={clearDisabled} className='mx-4'>
+					Clear
+				</Button>
+			</div>
 		</div>
 	)
 }
