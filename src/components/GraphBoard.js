@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import ReactFlow, { Controls, Background } from 'react-flow-renderer'
 import {
 	applyEdgeChanges,
@@ -10,19 +10,47 @@ import $ from 'jquery'
 import Button from 'react-bootstrap/Button'
 
 import './GraphBoard.css'
+import {
+	getDistance,
+	getConnectionIds,
+	updateDistances,
+} from '../utils/graphUtils'
 
 export default function GraphBoard() {
-	const [nodes, setNodes] = useState(initialNodes)
-	const [edges, setEdges] = useState(initialEdges)
+	const [nodes, setNodes] = useState(
+		JSON.parse(localStorage.getItem('nodes')) || initialNodes
+	)
+	const [edges, setEdges] = useState(
+		JSON.parse(localStorage.getItem('edges')) || initialEdges
+	)
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
 
 	const [removeDisabled, setRemoveDisabled] = useState(true)
 	const [clearDisabled, setClearDisabled] = useState(true)
+	// Cache nodes and edges into local storage
+	useEffect(() => {
+		localStorage.setItem('nodes', JSON.stringify(nodes))
+		localStorage.setItem('edges', JSON.stringify(edges))
+	}, [nodes, edges])
+
+	// Retrieve graph from local storage and set it to the current state of graph
+	useEffect(() => {
+		const currNodes = JSON.parse(localStorage.getItem('nodes'))
+		const currEdges = JSON.parse(localStorage.getItem('edges'))
+
+		if (currNodes && currEdges) {
+			setNodes(nds => applyNodeChanges(currNodes, nds))
+			setEdges(nds => applyEdgeChanges(currEdges, nds))
+		}
+	}, [])
 
 	const onNodesChange = useCallback(
-		changes => setNodes(nds => applyNodeChanges(changes, nds)),
-		[setNodes]
+		changes => {
+			updateDistances(changes[0].id, graph, setEdges, applyEdgeChanges)
+			setNodes(nds => applyNodeChanges(changes, nds))
+		},
+		[graph, setNodes]
 	)
 
 	const onEdgesChange = useCallback(
@@ -31,8 +59,13 @@ export default function GraphBoard() {
 	)
 
 	const onConnect = useCallback(
-		connection => setEdges(eds => addEdge(connection, eds)),
-		[setEdges]
+		connection => {
+			let node1 = graph.getNode(connection.source)
+			let node2 = graph.getNode(connection.target)
+			connection['label'] = getDistance(node1, node2)
+			setEdges(eds => addEdge(connection, eds))
+		},
+		[graph, setEdges]
 	)
 
 	const onGraphInit = instance => {
@@ -80,12 +113,19 @@ export default function GraphBoard() {
 	}
 
 	const test = () => {
-		graph.addNodes({
-			id: (graph.getNodes().length + 1).toString(),
-			data: { label: <div>E</div> },
-			position: { x: 0, y: 125 },
-		})
-		graph.addEdges({ id: 'e5-2', source: '5', target: '2', label: '45' })
+		let edges = getConnectionIds('1', graph)
+		let changedEdges = []
+
+		for (let id in edges) {
+			let edge = graph.getEdge(edges[id])
+			let node1 = graph.getNode(edge.source)
+			let node2 = graph.getNode(edge.target)
+			edge['label'] = getDistance(node1, node2)
+
+			changedEdges.push(edge)
+		}
+
+		setEdges(eds => applyEdgeChanges(changedEdges, eds))
 	}
 
 	return (

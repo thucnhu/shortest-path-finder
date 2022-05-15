@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 
-export default function VisualizeTable() {
+export default function VisualizeTable(graph) {
 	const [startVertex, setStartVertex] = useState('')
 	const [endVertex, setEndVertex] = useState('')
 	const [isInvalid, setIsInvalid] = useState(false)
+
+
+	const visualize = () => {
+		console.log('clicked')
+		console.log(JSON.parse(localStorage.getItem('nodes')))
+		console.log(JSON.parse(localStorage.getItem('edges')))
+	}
 
 	return (
 		<div className='bg-brand-grey w-56 h-64 rounded-md p-4 flex flex-col items-center justify-evenly'>
@@ -32,7 +39,7 @@ export default function VisualizeTable() {
 				</div>
 				{isInvalid && <p className='text-red-600 mb-2'>Invalid vertex!</p>}
 			</div>
-			<Button variant='success'>Visualize</Button>
+			<Button variant='success' onClick={visualize}>Visualize</Button>
 		</div>
 	)
 }
