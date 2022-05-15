@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import ReactFlow, { Controls, Background } from 'react-flow-renderer'
 import {
 	applyEdgeChanges,
@@ -13,10 +13,50 @@ import './GraphBoard.css'
 import { getDistance, getConnectionIds, updateDistances } from '../utils/graphUtils'
 
 export default function GraphBoard() {
+	// const [nodes, setNodes] = useState(JSON.parse(localStorage.getItem('nodes')) || initialNodes)
 	const [nodes, setNodes] = useState(initialNodes)
-	const [edges, setEdges] = useState(initialEdges)
+	const [edges, setEdges] = useState(JSON.parse(localStorage.getItem('edges')) || initialEdges)
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
+
+	// // Cache nodes and edges into local storage
+	useEffect(() => {
+		// console.log('item set')
+		localStorage.setItem('nodes', JSON.stringify(nodes))
+		localStorage.setItem('edges', JSON.stringify(edges))
+	}, [edges, nodes])
+
+	// Retrieve graph from local storage and set it to the current state of graph
+	useEffect(() => {	
+		const currNodes = JSON.parse(localStorage.getItem('nodes'))
+		const currEdges = JSON.parse(localStorage.getItem('edges'))
+		
+		if (currNodes && currEdges) {
+			console.log('nodes')
+			// console.log(JSON.parse(currNodes))
+
+			setNodes(nds => applyNodeChanges(currNodes, nds))
+			setEdges(nds => applyEdgeChanges(currEdges, nds))
+		}
+	}, []);
+
+
+	// // Retrieve graph from local storage and set it to the current state of graph
+	// useEffect(() => {
+	// 	// if (graph !== null) {
+	// 	// 	localStorage.setItem('graph', JSON.stringify(graph))
+	// 	// }
+		
+	// 	const currGraph = localStorage.getItem('graph')
+	// 	const graphLocation = localStorage.getItem('graphLocation')
+	// 	// localStorage.setItem('graph', JSON.stringify(graph));
+	// 	// console.log(JSON.parse(currGraph))
+	// 	if (currGraph && graphLocation) {
+	// 		setGraph(JSON.parse(currGraph))
+	// 		setGraphLocation(JSON.parse(graphLocation))
+	// 	}
+	// }, []);
+
 
 	const onNodesChange = useCallback(
 		changes => {

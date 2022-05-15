@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 
-export default function VisualizeTable() {
+export default function VisualizeTable(graph) {
 	const [startVertex, setStartVertex] = useState('')
 	const [endVertex, setEndVertex] = useState('')
 	const [isInvalid, setIsInvalid] = useState(false)
 
+
 	const visualize = () => {
 		console.log('clicked')
+		console.log(JSON.parse(localStorage.getItem('nodes')))
+		console.log(JSON.parse(localStorage.getItem('edges')))
 	}
 
 	return (
