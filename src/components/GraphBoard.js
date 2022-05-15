@@ -10,6 +10,7 @@ import $ from 'jquery'
 import Button from 'react-bootstrap/Button'
 
 import './GraphBoard.css'
+import { getDistance, getConnectionIds, updateDistances } from '../utils/graphUtils'
 
 export default function GraphBoard() {
 	const [nodes, setNodes] = useState(initialNodes)
@@ -18,8 +19,11 @@ export default function GraphBoard() {
 	const [pressed, setPressed] = useState(false)
 
 	const onNodesChange = useCallback(
-		changes => setNodes(nds => applyNodeChanges(changes, nds)),
-		[setNodes]
+		changes => {
+			updateDistances(changes[0].id, graph, setEdges, applyEdgeChanges)
+
+			setNodes(nds => applyNodeChanges(changes, nds))},
+		[graph, setNodes]
 	)
 
 	const onEdgesChange = useCallback(
@@ -28,8 +32,15 @@ export default function GraphBoard() {
 	)
 
 	const onConnect = useCallback(
-		connection => setEdges(eds => addEdge(connection, eds)),
-		[setEdges]
+		connection => {
+			let node1 = graph.getNode(connection.source)
+			let node2 = graph.getNode(connection.target)
+
+			connection['label'] = getDistance(node1, node2)
+
+			setEdges(eds => addEdge(connection, eds))
+		},
+		[graph, setEdges]
 	)
 
 	const onGraphInit = instance => {
@@ -77,12 +88,26 @@ export default function GraphBoard() {
 	}
 
 	const test = () => {
-		graph.addNodes({
-			id: (graph.getNodes().length + 1).toString(),
-			data: { label: <div>E</div> },
-			position: { x: 0, y: 125 },
-		})
-		graph.addEdges({ id: 'e5-2', source: '5', target: '2', label: '45' })
+		// graph.addNodes({
+		// 	id: (graph.getNodes().length + 1).toString(),
+		// 	data: { label: <div>E</div> },
+		// 	position: { x: 0, y: 125 },
+		// })
+		// graph.addEdges({ id: 'e5-2', source: '5', target: '2', label: '45' })
+		let edges = getConnectionIds('1', graph)
+		let changedEdges = []
+
+		for (let id in edges) {
+			let edge = graph.getEdge(edges[id])
+			let node1 = graph.getNode(edge.source)
+			let node2 = graph.getNode(edge.target)
+
+			edge['label'] = getDistance(node1, node2)
+
+			changedEdges.push(edge)
+		}
+		
+		setEdges(eds => applyEdgeChanges(changedEdges, eds))
 	}
 
 	return (
