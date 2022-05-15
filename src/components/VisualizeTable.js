@@ -6,6 +6,10 @@ export default function VisualizeTable() {
 	const [endVertex, setEndVertex] = useState('')
 	const [isInvalid, setIsInvalid] = useState(false)
 
+	const visualize = () => {
+		console.log('clicked')
+	}
+
 	return (
 		<div className='bg-brand-grey w-56 h-64 rounded-md p-4 flex flex-col items-center justify-evenly'>
 			<h5 className='text-center'>Find shortest path</h5>
@@ -32,7 +36,7 @@ export default function VisualizeTable() {
 				</div>
 				{isInvalid && <p className='text-red-600 mb-2'>Invalid vertex!</p>}
 			</div>
-			<Button variant='success'>Visualize</Button>
+			<Button variant='success' onClick={visualize}>Visualize</Button>
 		</div>
 	)
 }
