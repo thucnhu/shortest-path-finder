@@ -30,7 +30,7 @@ export default function GraphBoard() {
 	useEffect(() => {
 		localStorage.setItem('nodes', JSON.stringify(nodes))
 		localStorage.setItem('edges', JSON.stringify(edges))
-	}, [edges, nodes])
+	}, [nodes, edges])
 
 	// Retrieve graph from local storage and set it to the current state of graph
 	useEffect(() => {
