@@ -10,7 +10,7 @@ const initialNodes = [
 	{
 		id: '2',
 		// you can also pass a React component as a label
-		data: { label: <div>2</div> },
+		data: { label: '2' },
 		position: { x: 100, y: 125 },
 	},
 

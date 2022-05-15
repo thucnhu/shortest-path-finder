@@ -10,59 +10,44 @@ import $ from 'jquery'
 import Button from 'react-bootstrap/Button'
 
 import './GraphBoard.css'
-import { getDistance, getConnectionIds, updateDistances } from '../utils/graphUtils'
+import {
+	getDistance,
+	getConnectionIds,
+	updateDistances,
+} from '../utils/graphUtils'
 
 export default function GraphBoard() {
-	// const [nodes, setNodes] = useState(JSON.parse(localStorage.getItem('nodes')) || initialNodes)
-	const [nodes, setNodes] = useState(initialNodes)
-	const [edges, setEdges] = useState(JSON.parse(localStorage.getItem('edges')) || initialEdges)
+	const [nodes, setNodes] = useState(
+		JSON.parse(localStorage.getItem('nodes')) || initialNodes
+	)
+	const [edges, setEdges] = useState(
+		JSON.parse(localStorage.getItem('edges')) || initialEdges
+	)
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
 
-	// // Cache nodes and edges into local storage
+	// Cache nodes and edges into local storage
 	useEffect(() => {
-		// console.log('item set')
 		localStorage.setItem('nodes', JSON.stringify(nodes))
 		localStorage.setItem('edges', JSON.stringify(edges))
 	}, [edges, nodes])
 
 	// Retrieve graph from local storage and set it to the current state of graph
-	useEffect(() => {	
+	useEffect(() => {
 		const currNodes = JSON.parse(localStorage.getItem('nodes'))
 		const currEdges = JSON.parse(localStorage.getItem('edges'))
-		
-		if (currNodes && currEdges) {
-			console.log('nodes')
-			// console.log(JSON.parse(currNodes))
 
+		if (currNodes && currEdges) {
 			setNodes(nds => applyNodeChanges(currNodes, nds))
 			setEdges(nds => applyEdgeChanges(currEdges, nds))
 		}
-	}, []);
-
-
-	// // Retrieve graph from local storage and set it to the current state of graph
-	// useEffect(() => {
-	// 	// if (graph !== null) {
-	// 	// 	localStorage.setItem('graph', JSON.stringify(graph))
-	// 	// }
-		
-	// 	const currGraph = localStorage.getItem('graph')
-	// 	const graphLocation = localStorage.getItem('graphLocation')
-	// 	// localStorage.setItem('graph', JSON.stringify(graph));
-	// 	// console.log(JSON.parse(currGraph))
-	// 	if (currGraph && graphLocation) {
-	// 		setGraph(JSON.parse(currGraph))
-	// 		setGraphLocation(JSON.parse(graphLocation))
-	// 	}
-	// }, []);
-
+	}, [])
 
 	const onNodesChange = useCallback(
 		changes => {
 			updateDistances(changes[0].id, graph, setEdges, applyEdgeChanges)
-
-			setNodes(nds => applyNodeChanges(changes, nds))},
+			setNodes(nds => applyNodeChanges(changes, nds))
+		},
 		[graph, setNodes]
 	)
 
@@ -75,9 +60,7 @@ export default function GraphBoard() {
 		connection => {
 			let node1 = graph.getNode(connection.source)
 			let node2 = graph.getNode(connection.target)
-
 			connection['label'] = getDistance(node1, node2)
-
 			setEdges(eds => addEdge(connection, eds))
 		},
 		[graph, setEdges]
@@ -128,12 +111,6 @@ export default function GraphBoard() {
 	}
 
 	const test = () => {
-		// graph.addNodes({
-		// 	id: (graph.getNodes().length + 1).toString(),
-		// 	data: { label: <div>E</div> },
-		// 	position: { x: 0, y: 125 },
-		// })
-		// graph.addEdges({ id: 'e5-2', source: '5', target: '2', label: '45' })
 		let edges = getConnectionIds('1', graph)
 		let changedEdges = []
 
@@ -141,12 +118,11 @@ export default function GraphBoard() {
 			let edge = graph.getEdge(edges[id])
 			let node1 = graph.getNode(edge.source)
 			let node2 = graph.getNode(edge.target)
-
 			edge['label'] = getDistance(node1, node2)
 
 			changedEdges.push(edge)
 		}
-		
+
 		setEdges(eds => applyEdgeChanges(changedEdges, eds))
 	}
 
