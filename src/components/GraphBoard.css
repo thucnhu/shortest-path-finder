@@ -1,13 +1,15 @@
 .react-flow__node {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  padding: 5px;
-  font-size: 10px;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	font-size: 0.75rem;
+	justify-content: center;
+	align-items: center;
+	display: flex;
 }
 
 .react-flow__handle {
-  height: 10px;
-  width: 20px;
-  opacity: 0;
+	height: 6px;
+	width: 6px;
+	border-radius: 50%;
 }
