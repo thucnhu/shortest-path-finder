@@ -42,7 +42,6 @@ function findShortestPath(graph, startNode, endNode) {
 	let path = [endNode]
 	while (path[0] !== startNode) {
 		path.unshift(previous[path[0]])
-		console.log(path)
 	}
 
 	return path
@@ -68,4 +67,14 @@ function getMinDistance(distances, visited) {
 	return minDistanceNode
 }
 
-module.exports = { findShortestPath }
+// let graph = {
+// 	A: { B: 7, C: 8 },
+// 	B: { A: 7, C: 2, D: 2 },
+// 	C: { A: 8, B: 2, D: 6, E: 5 },
+// 	D: { B: 2, C: 6, E: 3 },
+// 	E: { C: 5, D: 3 },
+// }
+
+// console.log(findShortestPath(graph, 'A', 'E'))
+
+module.exports = findShortestPath
