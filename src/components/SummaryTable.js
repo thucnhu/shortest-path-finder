@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { getGraphOf } from '../utils/graphUtils'
 
 export default function SummaryTable(nodes) {
 	let graph = getGraphOf(nodes.nodes, nodes.edges)
-	console.log(graph)
 
 	return (
 		<div className='bg-brand-grey w-56 h-64 rounded-md p-3 overflow-y-auto'>

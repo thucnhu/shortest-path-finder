@@ -10,6 +10,7 @@ export default function VisualizeTable(nodes) {
 	const visualize = () => {
 		let graph = getGraphOf(nodes.nodes, nodes.edges)
 		console.log(findShortestPath(graph, startVertex, endVertex))
+		// TODO: visualize the path directly on the graph
 	}
 
 	return (
