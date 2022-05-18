@@ -166,7 +166,7 @@ export default function GraphBoard() {
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
 				<SummaryTable nodes={nodes} edges={edges} />
-				<VisualizeTable nodes={nodes} edges={edges} />
+				<VisualizeTable nodes={nodes} />
 			</div>
 		</div>
 	)
