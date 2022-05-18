@@ -9,6 +9,7 @@ import { initialEdges, initialNodes } from '../constant/initialGraph'
 import $ from 'jquery'
 import Button from 'react-bootstrap/Button'
 
+import { VisualizeTable, SummaryTable } from './'
 import './GraphBoard.css'
 import {
 	getDistance,
@@ -129,30 +130,43 @@ export default function GraphBoard() {
 	}
 
 	return (
-		<div className='border-2 border-black h-full w-full rounded-md mx-auto'>
-			<ReactFlow
-				nodes={nodes}
-				edges={edges}
-				onNodesChange={onNodesChange}
-				onEdgesChange={onEdgesChange}
-				onConnect={onConnect}
-				onInit={instance => onGraphInit(instance)}
-				fitView
-				onMouseDown={onBoardMouseDown}
-				onClick={onBoardClick}
-				id='graph'
-			>
-				<Controls />
-				<Background />
-			</ReactFlow>
+		<div
+			className='w-full flex md:flex-row flex-col justify-between items-center'
+			style={{ height: '90vh', minHeight: '600px' }}
+		>
+			<div className='border-2 border-black rounded-md mx-auto md:w-4/5 w-11/12 h-5/6 justify-center'>
+				<ReactFlow
+					nodes={nodes}
+					edges={edges}
+					onNodesChange={onNodesChange}
+					onEdgesChange={onEdgesChange}
+					onConnect={onConnect}
+					onInit={instance => onGraphInit(instance)}
+					fitView
+					onMouseDown={onBoardMouseDown}
+					onClick={onBoardClick}
+					id='graph'
+				>
+					<Controls />
+					<Background />
+				</ReactFlow>
 
-			<div className='flex flex-row justify-center my-3'>
-				<Button variant='dark' disabled={removeDisabled} className='mx-4'>
-					Remove
-				</Button>
-				<Button variant='dark' disabled={clearDisabled} className='mx-4'>
-					Clear
-				</Button>
+				<div className='flex flex-row justify-center my-3'>
+					<Button
+						variant='dark'
+						disabled={removeDisabled}
+						className='mx-4'
+					>
+						Remove
+					</Button>
+					<Button variant='dark' disabled={clearDisabled} className='mx-4'>
+						Clear
+					</Button>
+				</div>
+			</div>
+			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
+				<SummaryTable nodes={nodes} edges={edges} />
+				<VisualizeTable nodes={nodes} edges={edges} />
 			</div>
 		</div>
 	)
