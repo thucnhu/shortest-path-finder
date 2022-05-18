@@ -73,6 +73,7 @@ function getGraphOf(listNodes, listEdges) {
 	for (let i = 0; i < listEdges.length; i++) {
 		let edge = listEdges[i]
 		graph[edge.source][edge.target] = parseInt(edge.label)
+		graph[edge.target][edge.source] = parseInt(edge.label)
 	}
 
 	return graph
