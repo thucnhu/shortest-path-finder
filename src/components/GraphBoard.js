@@ -17,6 +17,9 @@ import {
 	updateDistances,
 } from '../utils/graphUtils'
 
+import { DELETE_KEY_CODES } from '../constant/graphConfig'
+
+
 export default function GraphBoard() {
 	const [nodes, setNodes] = useState(
 		JSON.parse(localStorage.getItem('nodes')) || initialNodes
@@ -28,7 +31,9 @@ export default function GraphBoard() {
 	const [pressed, setPressed] = useState(false)
 
 	const [removeDisabled, setRemoveDisabled] = useState(true)
-	const [clearDisabled, setClearDisabled] = useState(true)
+	const [clearDisabled, setClearDisabled] = useState(false)
+
+
 	// Cache nodes and edges into local storage
 	useEffect(() => {
 		localStorage.setItem('nodes', JSON.stringify(nodes))
@@ -113,20 +118,16 @@ export default function GraphBoard() {
 		setPressed(true)
 	}
 
-	const test = () => {
-		let edges = getConnectionIds('1', graph)
-		let changedEdges = []
+	const clearBtnClick = () => {
+		setNodes(initialNodes)
+		setEdges(initialEdges)
+	}
 
-		for (let id in edges) {
-			let edge = graph.getEdge(edges[id])
-			let node1 = graph.getNode(edge.source)
-			let node2 = graph.getNode(edge.target)
-			edge['label'] = getDistance(node1, node2)
-
-			changedEdges.push(edge)
-		}
-
-		setEdges(eds => applyEdgeChanges(changedEdges, eds))
+	// a node is clicked/selected
+	const onNodeClick = (node) => {
+		
+		// console.log(node)
+		// console.log('clicked')
 	}
 
 	return (
@@ -142,9 +143,12 @@ export default function GraphBoard() {
 					onEdgesChange={onEdgesChange}
 					onConnect={onConnect}
 					onInit={instance => onGraphInit(instance)}
-					fitView
+					onNodeClick={(event, node) => onNodeClick(node)}
 					onMouseDown={onBoardMouseDown}
 					onClick={onBoardClick}
+					deleteKeyCode={DELETE_KEY_CODES}
+					connectionMode={'loose'}
+					fitView
 					id='graph'
 				>
 					<Controls />
@@ -152,16 +156,12 @@ export default function GraphBoard() {
 				</ReactFlow>
 
 				<div className='flex flex-row justify-center my-3'>
-					<Button
-						variant='dark'
-						disabled={removeDisabled}
-						className='mx-4'
-					>
-						Remove
-					</Button>
-					<Button variant='dark' disabled={clearDisabled} className='mx-4'>
+					<Button variant='dark' disabled={clearDisabled} onClick={clearBtnClick} className='mx-4'>
 						Clear
 					</Button>
+					{/* <Button	variant='dark' disabled={removeDisabled} className='mx-4'>
+						Remove
+					</Button> */}
 				</div>
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>

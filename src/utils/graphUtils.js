@@ -8,7 +8,11 @@ function getDistance(node1, node2) {
 	let distance = Math.sqrt(
 		Math.pow(node1.position.x - node2.position.x, 2) +
 			Math.pow(node1.position.y - node2.position.y, 2)
-	).toFixed(0)
+	)
+
+	const DISTANCE_FACTOR = 10
+	// decrease the distance label for more human-friendly view
+	distance = (distance / DISTANCE_FACTOR).toFixed(0)
 
 	return distance.toString()
 }
@@ -22,7 +26,6 @@ function getDistance(node1, node2) {
 function getConnectionIds(nodeId, graph) {
 	let edges = graph.getEdges()
 	let ids = []
-
 	for (let i in edges) {
 		let edge = edges[i]
 		if (edge.source === nodeId || edge.target === nodeId) {
