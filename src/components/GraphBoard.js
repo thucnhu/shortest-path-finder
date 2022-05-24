@@ -124,10 +124,23 @@ export default function GraphBoard() {
 	}
 
 	// a node is clicked/selected
-	const onNodeClick = (node) => {
-		
-		// console.log(node)
-		// console.log('clicked')
+	const onNodeClick = (inNode) => {
+		console.log(inNode)
+		setNodes((nds) =>
+      nds.map((node) => {
+        if (node.id === inNode.id) {
+          // it's important that you create a new object here
+          // in order to notify react flow about the change
+          // node.data = {
+          //   ...node.data,
+          //   label: inNode.data['label'],
+          // };
+					node.style = { ...node.style, backgroundColor: '#eef'};
+        }
+
+        return node;
+      })
+    );
 	}
 
 	return (
