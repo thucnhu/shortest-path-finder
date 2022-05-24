@@ -11,14 +11,9 @@ import Button from 'react-bootstrap/Button'
 
 import { VisualizeTable, SummaryTable } from './'
 import './GraphBoard.css'
-import {
-	getDistance,
-	getConnectionIds,
-	updateDistances,
-} from '../utils/graphUtils'
+import { getDistance, updateDistances } from '../utils/graphUtils'
 
 import { DELETE_KEY_CODES } from '../constant/graphConfig'
-
 
 export default function GraphBoard() {
 	const [nodes, setNodes] = useState(
@@ -29,10 +24,6 @@ export default function GraphBoard() {
 	)
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
-
-	const [removeDisabled, setRemoveDisabled] = useState(true)
-	const [clearDisabled, setClearDisabled] = useState(false)
-
 
 	// Cache nodes and edges into local storage
 	useEffect(() => {
@@ -124,8 +115,7 @@ export default function GraphBoard() {
 	}
 
 	// a node is clicked/selected
-	const onNodeClick = (node) => {
-		
+	const onNodeClick = node => {
 		// console.log(node)
 		// console.log('clicked')
 	}
@@ -155,13 +145,10 @@ export default function GraphBoard() {
 					<Background />
 				</ReactFlow>
 
-				<div className='flex flex-row justify-center my-3'>
-					<Button variant='dark' disabled={clearDisabled} onClick={clearBtnClick} className='mx-4'>
+				<div className='flex justify-center my-3'>
+					<Button variant='dark' onClick={clearBtnClick}>
 						Clear
 					</Button>
-					{/* <Button	variant='dark' disabled={removeDisabled} className='mx-4'>
-						Remove
-					</Button> */}
 				</div>
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
