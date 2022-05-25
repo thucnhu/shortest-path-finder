@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import findShortestPath from '../algo/dijkstras'
 import { getGraphOf, changeEdgeStyle } from '../utils/graphUtils'
 
-export default function VisualizeTable({nodes, edges, setNodes, setClearDisabled}) {
+export default function VisualizeTable({nodes, edges, setNodes, clearDisabled, setClearDisabled, setClearStyle}) {
 	const [startVertex, setStartVertex] = useState('')
 	const [endVertex, setEndVertex] = useState('')
 
@@ -20,10 +20,6 @@ export default function VisualizeTable({nodes, edges, setNodes, setClearDisabled
         if (shortestPathId.includes(node.id)) {
           // it's important that you create a new object here
           // in order to notify react flow about the change
-          // node.data = {
-          //   ...node.data,
-          //   label: inNode.data['label'],
-          // };
 					node.style = { ...node.style, backgroundColor: '#198754'};
         }
 
@@ -64,13 +60,22 @@ export default function VisualizeTable({nodes, edges, setNodes, setClearDisabled
 					onChange={e => setEndVertex(e.target.value)}
 				/>
 			</div>
-			<Button
-				variant='success'
-				onClick={visualize}
-				disabled={startVertex === '' || endVertex === ''}
-			>
-				Visualize
-			</Button>
+			<div className='flex flex-row justify-around mx-6 w-100'> 
+				<Button
+					variant='dark'
+					onClick={setClearStyle}
+					disabled={startVertex === '' || endVertex === '' || clearDisabled}
+				>
+					Clear
+				</Button>
+				<Button
+					variant='success'
+					onClick={visualize}
+					disabled={startVertex === '' || endVertex === ''}
+				>
+					Visualize
+				</Button>
+			</div>
 		</div>
 	)
 }

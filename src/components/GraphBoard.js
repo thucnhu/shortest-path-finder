@@ -173,11 +173,6 @@ export default function GraphBoard() {
 				</ReactFlow>
 
 				<div className='flex flex-row justify-center my-3'>
-					<Button	variant='dark' disabled={clearDisabled} 
-						onClick={onClear} className='mx-4'
-					>
-						Clear style
-					</Button>
 					<Button variant='dark' onClick={() => setIsOpen(true)} className='mx-4'>
 						Reset
 					</Button>
@@ -187,7 +182,9 @@ export default function GraphBoard() {
 				<SummaryTable nodes={nodes} edges={edges} />
 				<VisualizeTable nodes={nodes} edges={edges} 
 					setNodes={setNodes}
+					clearDisabled={clearDisabled}
 					setClearDisabled={setClearDisabled}
+					setClearStyle={onClear}
 				/>
 			</div>
 
