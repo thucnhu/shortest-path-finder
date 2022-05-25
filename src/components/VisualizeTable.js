@@ -28,7 +28,11 @@ export default function VisualizeTable({
 					if (shortestPathId.includes(node.id)) {
 						// it's important that you create a new object here
 						// in order to notify react flow about the change
-						node.style = { ...node.style, backgroundColor: '#198754', color: 'white' }
+						node.style = {
+							...node.style,
+							backgroundColor: '#198754',
+							color: 'white',
+						}
 					}
 					return node
 				})
@@ -43,7 +47,7 @@ export default function VisualizeTable({
 	}
 
 	return (
-		<div className='bg-brand-grey w-56 h-64 rounded-md p-4 flex flex-col items-center justify-evenly'>
+		<div className='bg-brand-grey w-56 h-64 rounded-md p-4 flex flex-col items-center justify-evenly lg:mb-14'>
 			<h5 className='text-center'>Find shortest path</h5>
 			<div className='flex flex-row justify-between items-center mb-2'>
 				<label>From vertex:</label>

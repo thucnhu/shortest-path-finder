@@ -107,8 +107,7 @@ export default function GraphBoard() {
 			})
 		}
 
-		// reset add node listener
-		setPressed(false)
+		setPressed(false) // reset add node listener
 	}
 
 	// hanlde mouse drag -> dont add node
@@ -123,8 +122,8 @@ export default function GraphBoard() {
 
 	return (
 		<div
-			className='w-full flex lg:flex-row flex-col lg:py-0 py-10 px-4 md:px-10 
-			justify-between items-center h-[90vh] min-h-[600px]'
+			className='w-full flex lg:flex-row flex-col lg:py-0 py-10 px-4 md:px-10
+			justify-between items-center h-[92vh] min-h-[680px]'
 		>
 			<div className='flex flex-col mx-auto w-100 h-5/6 justify-center'>
 				<ReactFlow
@@ -147,7 +146,7 @@ export default function GraphBoard() {
 					<Background />
 				</ReactFlow>
 
-				<div className='flex flex-row justify-center my-3'>
+				<div className='flex flex-row justify-center my-2'>
 					<Button
 						variant='dark'
 						onClick={() => setIsOpen(true)}
@@ -157,8 +156,10 @@ export default function GraphBoard() {
 					</Button>
 				</div>
 			</div>
-			<div className='flex lg:flex-col md-flex-row lg:justify-between justify-around 
-						lg:pl-8 lg:h-5/6 sm:h-auto w-full lg:w-fit'>
+			<div
+				className='flex lg:flex-col md:flex-row lg:justify-between justify-evenly
+						lg:pl-8 lg:h-5/6 sm:h-auto w-full lg:w-fit'
+			>
 				<SummaryTable nodes={nodes} edges={edges} />
 				<VisualizeTable
 					nodes={nodes}
