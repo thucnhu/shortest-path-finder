@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import { Home, About } from './pages'
 import { Navbar } from './components'
 
@@ -8,12 +8,12 @@ function App() {
 		<div>
 			<Navbar />
 			<div className='container'>
-				<BrowserRouter>
+				<HashRouter basename={process.env.PUBLIC_URL}>
 					<Routes>
-						<Route path='/' element={<Home />} />
+						<Route exact path='/' element={<Home />} />
 						<Route path='/about' element={<About />} />
 					</Routes>
-				</BrowserRouter>
+				</HashRouter>
 			</div>
 		</div>
 	)
