@@ -62,7 +62,6 @@ function getEdgeBetweenNodes(edges, startNodeId, endNodeId) {
  */
 function changeEdgeStyle(edges, targetNodeId, sourceNodeId) {
 	let edge = getEdgeBetweenNodes(edges, targetNodeId, sourceNodeId)
-	console.log(edge)
 	edge.animated = true
 	edge.style = { ...edge.style, stroke: '#198754' }
 	edge.labelStyle = { ...edge.style, color: '#198754', fontWeight: '300' }
@@ -134,6 +133,25 @@ function getGraphOf(listNodes, listEdges) {
 	return graph
 }
 
+function getAvailableNodeId(nodes) {
+	let idSet = new Set()
+	let newId = 1;
+
+	nodes.forEach((v) => {
+		idSet.add(parseInt(v.id))
+	})
+
+	while (true) {
+		if (idSet.has(newId)) {
+			newId ++
+		} else {
+			break
+		}
+	}
+
+	return newId.toString()
+}
+
 export {
 	getDistance,
 	getConnectionIds,
@@ -142,4 +160,5 @@ export {
 	updateDistances,
 	getGraphOf,
 	clearStyle,
+	getAvailableNodeId
 }
