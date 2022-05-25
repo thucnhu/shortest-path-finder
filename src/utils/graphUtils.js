@@ -26,14 +26,63 @@ function getDistance(node1, node2) {
 function getConnectionIds(nodeId, graph) {
 	let edges = graph.getEdges()
 	let ids = []
-	for (let i in edges) {
-		let edge = edges[i]
+	for (let edge of edges.values()) {
 		if (edge.source === nodeId || edge.target === nodeId) {
 			ids.push(edge.id)
 		}
 	}
 
 	return ids
+}
+
+/**
+ * Loop through the list of edges and get the edge between two given nodes
+ * @param {Object} edges list of edges in React Flow format
+ * @param {String} startNodeId the start node id
+ * @param {String} endNodeId the end node id
+ * @returns the edge between the two nodes
+ */
+function getEdgeBetweenNodes(edges, startNodeId, endNodeId) {
+	for (let edge of edges.values()) {
+		if (
+			(edge.source === startNodeId && edge.target === endNodeId) ||
+			(edge.source === endNodeId && edge.target === startNodeId)
+		)
+			return edge
+	}
+
+	return null
+}
+
+/**
+ * Change the styling of the edge between two given nodes
+ * @param {Object} edges list of edges in React Flow format
+ * @param {String} targetNodeId the target node id
+ * @param {String} sourceNodeId the source node id
+ */
+function changeEdgeStyle(edges, targetNodeId, sourceNodeId) {
+	let edge = getEdgeBetweenNodes(edges, targetNodeId, sourceNodeId)
+	edge['animated'] = true
+	edge['style'] = { ...edge.style, stroke: '#198754' }
+}
+
+/**
+ * Clear the styling of the edges
+ * @param {function} setNodes function to set the nodes
+ * @param {Object} edges the edges in React Flow format
+ */
+function clearStyle(setNodes, edges) {
+	setNodes(nds =>
+		nds.map(node => {
+			node.style = {}
+			return node
+		})
+	)
+
+	for (let edge of edges) {
+		edge.animated = false
+		edge.style = {}
+	}
 }
 
 /**
@@ -82,4 +131,12 @@ function getGraphOf(listNodes, listEdges) {
 	return graph
 }
 
-export { getDistance, getConnectionIds, updateDistances, getGraphOf }
+export {
+	getDistance,
+	getConnectionIds,
+	getEdgeBetweenNodes,
+	changeEdgeStyle,
+	updateDistances,
+	getGraphOf,
+	clearStyle,
+}
