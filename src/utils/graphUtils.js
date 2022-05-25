@@ -51,6 +51,21 @@ function changeEdgeStyle(edges, targetNodeId, sourceNodeId) {
 	edge["style"] = { ...edge.style, stroke: '#198754'}
 }
 
+function clearStyle(setNodes, edges) {
+	setNodes((nds) =>
+      nds.map((node) => {
+				node.style = {}
+        return node;
+      })
+    )
+
+	for (let edge of edges) {
+		console.log(edge)
+		edge.animated = false
+		edge.style = {}
+	}
+}
+
 /**
  * Update the distances when a node is added or moved around
  * @param {String} nodeId the node id
@@ -98,4 +113,4 @@ function getGraphOf(listNodes, listEdges) {
 }
 
 export { getDistance, getConnectionIds, getEdgeBetweenNodes, changeEdgeStyle, updateDistances, 
-	getGraphOf }
+	getGraphOf, clearStyle }

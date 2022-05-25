@@ -13,8 +13,8 @@ import { VisualizeTable, SummaryTable } from './'
 import './GraphBoard.css'
 import {
 	getDistance,
-	getConnectionIds,
 	updateDistances,
+	clearStyle
 } from '../utils/graphUtils'
 
 import { DELETE_KEY_CODES } from '../constant/graphConfig'
@@ -31,8 +31,7 @@ export default function GraphBoard() {
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
 
-	const [removeDisabled, setRemoveDisabled] = useState(true)
-	const [clearDisabled, setClearDisabled] = useState(false)
+	const [clearDisabled, setClearDisabled] = useState(true)
 	
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -122,30 +121,29 @@ export default function GraphBoard() {
 		setPressed(true)
 	}
 
-	const clearBtnClick = () => {
-		// setIsOpen(true)
-		setNodes(initialNodes)
-		setEdges(initialEdges)
-	}
-
 	// a node is clicked/selected
 	const onNodeClick = (inNode) => {
-		console.log(inNode)
-		setNodes((nds) =>
-      nds.map((node) => {
-        if (node.id === inNode.id) {
-          // it's important that you create a new object here
-          // in order to notify react flow about the change
-          // node.data = {
-          //   ...node.data,
-          //   label: inNode.data['label'],
-          // };
-					node.style = { ...node.style, backgroundColor: '#eef'};
-        }
+		// console.log(inNode)
+		// setNodes((nds) =>
+    //   nds.map((node) => {
+    //     if (node.id === inNode.id) {
+    //       // it's important that you create a new object here
+    //       // in order to notify react flow about the change
+    //       // node.data = {
+    //       //   ...node.data,
+    //       //   label: inNode.data['label'],
+    //       // };
+		// 			node.style = { ...node.style, backgroundColor: '#eef'};
+    //     }
 
-        return node;
-      })
-    );
+    //     return node;
+    //   })
+    // );
+	}
+
+	const onClear = () => {
+		clearStyle(setNodes, edges)
+		setClearDisabled(true)
 	}
 
 	return (
@@ -175,22 +173,30 @@ export default function GraphBoard() {
 				</ReactFlow>
 
 				<div className='flex flex-row justify-center my-3'>
-					<Button variant='dark' disabled={clearDisabled} onClick={clearBtnClick} className='mx-4'>
-						Clear
+					<Button	variant='dark' disabled={clearDisabled} 
+						onClick={onClear} className='mx-4'
+					>
+						Clear style
 					</Button>
-					{/* <Button	variant='dark' disabled={removeDisabled} className='mx-4'>
-						Remove
-					</Button> */}
+					<Button variant='dark' onClick={() => setIsOpen(true)} className='mx-4'>
+						Reset
+					</Button>
 				</div>
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
 				<SummaryTable nodes={nodes} edges={edges} />
-				<VisualizeTable nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges}/>
+				<VisualizeTable nodes={nodes} edges={edges} 
+					setNodes={setNodes}
+					setClearDisabled={setClearDisabled}
+				/>
 			</div>
 
 			<ConfirmDialog
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
+				setNodes={setNodes}
+				setEdges={setEdges}
+				clearStyle={onClear}
 			/>
 		</div>
 	)

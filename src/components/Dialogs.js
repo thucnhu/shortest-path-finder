@@ -5,9 +5,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { initialEdges, initialNodes } from '../constant/initialGraph';
+
 const ConfirmDialog = (props) => {
   const handleAgree = () => {
     props.setIsOpen(false)
+    props.setNodes(initialNodes)
+		props.setEdges(initialEdges)
+    props.clearStyle()
   }
 
   const handleDisagree = () => {

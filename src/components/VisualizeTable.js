@@ -2,13 +2,8 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import findShortestPath from '../algo/dijkstras'
 import { getGraphOf, changeEdgeStyle } from '../utils/graphUtils'
-import {
-	applyEdgeChanges, applyNodeChanges,
-	addEdge,
-	updateEdge
-} from 'react-flow-renderer'
 
-export default function VisualizeTable({nodes, edges, setNodes, setEdges}) {
+export default function VisualizeTable({nodes, edges, setNodes, setClearDisabled}) {
 	const [startVertex, setStartVertex] = useState('')
 	const [endVertex, setEndVertex] = useState('')
 
@@ -17,6 +12,7 @@ export default function VisualizeTable({nodes, edges, setNodes, setEdges}) {
 		const shortestPathId = findShortestPath(graphMap, startVertex, endVertex)
 
 		console.log("shortest path found:" + shortestPathId)
+		setClearDisabled(false)
 
 		setNodes((nds) =>
 
