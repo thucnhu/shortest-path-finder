@@ -12,7 +12,7 @@ import Button from 'react-bootstrap/Button'
 
 import { VisualizeTable, SummaryTable } from './'
 import './GraphBoard.css'
-import { getDistance, updateDistances, clearStyle } from '../utils/graphUtils'
+import { getDistance, updateDistances, getAvailableNodeId, clearStyle } from '../utils/graphUtils'
 
 import { DELETE_KEY_CODES } from '../constant/graphConfig'
 import { ConfirmDialog } from './Dialogs'
@@ -98,7 +98,7 @@ export default function GraphBoard() {
 
 			let newX = (e.clientX - nodeScreenX) / zoomFactor
 			let newY = (e.clientY - nodeScreenY) / zoomFactor
-			let newId = (graph.getNodes().length + 1).toString()
+			let newId = getAvailableNodeId(nodes)
 
 			graph.addNodes({
 				id: newId,

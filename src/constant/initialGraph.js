@@ -2,21 +2,20 @@ const initialNodes = [
 	{
 		// node 1 MUST be 0 0
 		id: '1',
-		// type: 'input',
+		selectable: false,
 		data: { label: '1' },
 		position: { x: 0, y: 0 },
 	},
 
 	{
 		id: '2',
-		// you can also pass a React component as a label
+		selectable: false,
 		data: { label: '2' },
 		position: { x: 100, y: 125 },
 	},
 
 	{
 		id: '3',
-		// type: 'output',
 		data: { label: '3' },
 		position: { x: 250, y: 250 },
 	},

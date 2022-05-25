@@ -8,12 +8,16 @@
 	display: flex;
 }
 
+.react-flow__node:active {
+	cursor: grabbing;
+}
+
 .react-flow__pane:hover {
 	cursor: pointer;
 }
 
 .react-flow__edge:hover {
-	cursor: pointer;
+	cursor: grab;
 }
 
 .react-flow__handle {
