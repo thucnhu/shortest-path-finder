@@ -11,6 +11,11 @@
  * @returns {Array} the shortest path between the two nodes
  */
 function findShortestPath(graph, startNode, endNode) {
+	if (startNode === endNode) {
+		alert('Start node and end node cannot be the same')
+		return null
+	}
+
 	let distances = {} // track distances from startNode to all other nodes
 
 	// Assign to all nodes a tentative distance value
@@ -37,7 +42,10 @@ function findShortestPath(graph, startNode, endNode) {
 		visited.push(currNode) // mark the current node as visited
 		currNode = getMinDistance(distances, visited) // choose new current node from unvisited nodes with minimal distance
 
-		if (currNode === null) return null
+		if (currNode === null) {
+			alert('No path found')
+			return null
+		}
 	}
 
 	// build the shortest path
