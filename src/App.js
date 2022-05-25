@@ -8,7 +8,7 @@ function App() {
 		<div>
 			<Navbar />
 			<div className='container'>
-				<HashRouter basename={process.env.PUBLIC_URL}>
+				<HashRouter>
 					<Routes>
 						<Route exact path='/' element={<Home />} />
 						<Route path='/about' element={<About />} />
