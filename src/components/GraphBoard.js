@@ -4,6 +4,7 @@ import {
 	applyEdgeChanges,
 	applyNodeChanges,
 	addEdge,
+	updateEdge,
 } from 'react-flow-renderer'
 import { initialEdges, initialNodes } from '../constant/initialGraph'
 import $ from 'jquery'
@@ -11,9 +12,10 @@ import Button from 'react-bootstrap/Button'
 
 import { VisualizeTable, SummaryTable } from './'
 import './GraphBoard.css'
-import { getDistance, updateDistances } from '../utils/graphUtils'
+import { getDistance, updateDistances, clearStyle } from '../utils/graphUtils'
 
 import { DELETE_KEY_CODES } from '../constant/graphConfig'
+import { ConfirmDialog } from './Dialogs'
 
 export default function GraphBoard() {
 	const [nodes, setNodes] = useState(
@@ -24,6 +26,8 @@ export default function GraphBoard() {
 	)
 	const [graph, setGraph] = useState(null)
 	const [pressed, setPressed] = useState(false)
+	const [clearDisabled, setClearDisabled] = useState(true)
+	const [isOpen, setIsOpen] = useState(false)
 
 	// Cache nodes and edges into local storage
 	useEffect(() => {
@@ -54,6 +58,9 @@ export default function GraphBoard() {
 		changes => setEdges(eds => applyEdgeChanges(changes, eds)),
 		[setEdges]
 	)
+
+	const onEdgeUpdate = (oldEdge, newConnection) =>
+		setEdges(els => updateEdge(oldEdge, newConnection, els))
 
 	const onConnect = useCallback(
 		connection => {
@@ -109,15 +116,9 @@ export default function GraphBoard() {
 		setPressed(true)
 	}
 
-	const clearBtnClick = () => {
-		setNodes(initialNodes)
-		setEdges(initialEdges)
-	}
-
-	// a node is clicked/selected
-	const onNodeClick = node => {
-		// console.log(node)
-		// console.log('clicked')
+	const onClear = () => {
+		clearStyle(setNodes, edges)
+		setClearDisabled(true)
 	}
 
 	return (
@@ -131,9 +132,9 @@ export default function GraphBoard() {
 					edges={edges}
 					onNodesChange={onNodesChange}
 					onEdgesChange={onEdgesChange}
+					onEdgeUpdate={onEdgeUpdate}
 					onConnect={onConnect}
 					onInit={instance => onGraphInit(instance)}
-					onNodeClick={(event, node) => onNodeClick(node)}
 					onMouseDown={onBoardMouseDown}
 					onClick={onBoardClick}
 					deleteKeyCode={DELETE_KEY_CODES}
@@ -145,16 +146,35 @@ export default function GraphBoard() {
 					<Background />
 				</ReactFlow>
 
-				<div className='flex justify-center my-3'>
-					<Button variant='dark' onClick={clearBtnClick}>
-						Clear
+				<div className='flex flex-row justify-center my-3'>
+					<Button
+						variant='dark'
+						onClick={() => setIsOpen(true)}
+						className='mx-4'
+					>
+						Reset
 					</Button>
 				</div>
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
 				<SummaryTable nodes={nodes} edges={edges} />
-				<VisualizeTable nodes={nodes} edges={edges} />
+				<VisualizeTable
+					nodes={nodes}
+					edges={edges}
+					setNodes={setNodes}
+					clearDisabled={clearDisabled}
+					setClearDisabled={setClearDisabled}
+					setClearStyle={onClear}
+				/>
 			</div>
+
+			<ConfirmDialog
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+				setNodes={setNodes}
+				setEdges={setEdges}
+				clearStyle={onClear}
+			/>
 		</div>
 	)
 }

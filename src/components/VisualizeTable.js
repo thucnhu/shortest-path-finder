@@ -1,16 +1,42 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import findShortestPath from '../algo/dijkstras'
-import { getGraphOf } from '../utils/graphUtils'
+import { getGraphOf, changeEdgeStyle } from '../utils/graphUtils'
 
-export default function VisualizeTable(nodes) {
+export default function VisualizeTable({
+	nodes,
+	edges,
+	setNodes,
+	clearDisabled,
+	setClearDisabled,
+	setClearStyle,
+}) {
 	const [startVertex, setStartVertex] = useState('')
 	const [endVertex, setEndVertex] = useState('')
 
 	const visualize = () => {
-		let graph = getGraphOf(nodes.nodes, nodes.edges)
-		console.log(findShortestPath(graph, startVertex, endVertex))
-		// TODO: visualize the path directly on the graph
+		const graphMap = getGraphOf(nodes, edges)
+		const shortestPathId = findShortestPath(graphMap, startVertex, endVertex)
+
+		console.log('shortest path found:' + shortestPathId)
+		setClearDisabled(false)
+
+		setNodes(nds =>
+			nds.map(node => {
+				if (shortestPathId.includes(node.id)) {
+					// it's important that you create a new object here
+					// in order to notify react flow about the change
+					node.style = { ...node.style, backgroundColor: '#198754' }
+				}
+				return node
+			})
+		)
+
+		for (let i = 0; i < shortestPathId.length - 1; i++) {
+			let targetNodeId = shortestPathId[i]
+			let sourceNodeId = shortestPathId[i + 1]
+			changeEdgeStyle(edges, targetNodeId, sourceNodeId)
+		}
 	}
 
 	return (
@@ -37,13 +63,24 @@ export default function VisualizeTable(nodes) {
 					onChange={e => setEndVertex(e.target.value)}
 				/>
 			</div>
-			<Button
-				variant='success'
-				onClick={visualize}
-				disabled={startVertex === '' || endVertex === ''}
-			>
-				Visualize
-			</Button>
+			<div className='flex flex-row justify-around mx-6 w-100'>
+				<Button
+					variant='dark'
+					onClick={setClearStyle}
+					disabled={
+						startVertex === '' || endVertex === '' || clearDisabled
+					}
+				>
+					Clear
+				</Button>
+				<Button
+					variant='success'
+					onClick={visualize}
+					disabled={startVertex === '' || endVertex === ''}
+				>
+					Visualize
+				</Button>
+			</div>
 		</div>
 	)
 }
