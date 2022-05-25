@@ -23,7 +23,7 @@ function findShortestPath(graph, startNode, endNode) {
 	let previous = {} // track the previous node for each node
 	let currNode = startNode
 
-	while (visited.length < Object.keys(graph).length) {
+	while (visited.length < Object.keys(graph).length && currNode !== endNode) {
 		// update distances to all unvisited neighbors
 		for (let neighbor in graph[currNode]) {
 			let distance = distances[currNode] + graph[currNode][neighbor]
@@ -36,6 +36,8 @@ function findShortestPath(graph, startNode, endNode) {
 
 		visited.push(currNode) // mark the current node as visited
 		currNode = getMinDistance(distances, visited) // choose new current node from unvisited nodes with minimal distance
+
+		if (currNode === null) return null
 	}
 
 	// build the shortest path
