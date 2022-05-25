@@ -62,8 +62,10 @@ function getEdgeBetweenNodes(edges, startNodeId, endNodeId) {
  */
 function changeEdgeStyle(edges, targetNodeId, sourceNodeId) {
 	let edge = getEdgeBetweenNodes(edges, targetNodeId, sourceNodeId)
-	edge['animated'] = true
-	edge['style'] = { ...edge.style, stroke: '#198754' }
+	console.log(edge)
+	edge.animated = true
+	edge.style = { ...edge.style, stroke: '#198754' }
+	edge.labelStyle = { ...edge.style, color: '#198754', fontWeight: '300' }
 }
 
 /**
@@ -82,6 +84,7 @@ function clearStyle(setNodes, edges) {
 	for (let edge of edges) {
 		edge.animated = false
 		edge.style = {}
+		edge.labelStyle = {}
 	}
 }
 

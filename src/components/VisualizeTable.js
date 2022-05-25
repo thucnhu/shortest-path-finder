@@ -28,7 +28,7 @@ export default function VisualizeTable({
 					if (shortestPathId.includes(node.id)) {
 						// it's important that you create a new object here
 						// in order to notify react flow about the change
-						node.style = { ...node.style, backgroundColor: '#198754' }
+						node.style = { ...node.style, backgroundColor: '#198754', color: 'white' }
 					}
 					return node
 				})
