@@ -135,18 +135,15 @@ function getGraphOf(listNodes, listEdges) {
 
 function getAvailableNodeId(nodes) {
 	let idSet = new Set()
-	let newId = 1;
+	let newId = 1
 
-	nodes.forEach((v) => {
+	nodes.forEach(v => {
 		idSet.add(parseInt(v.id))
 	})
 
 	while (true) {
-		if (idSet.has(newId)) {
-			newId ++
-		} else {
-			break
-		}
+		if (idSet.has(newId)) newId++
+		else break
 	}
 
 	return newId.toString()
@@ -160,5 +157,5 @@ export {
 	updateDistances,
 	getGraphOf,
 	clearStyle,
-	getAvailableNodeId
+	getAvailableNodeId,
 }
