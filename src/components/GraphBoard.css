@@ -8,6 +8,14 @@
 	display: flex;
 }
 
+.react-flow__pane:hover {
+	cursor: pointer;
+}
+
+.react-flow__edge:hover {
+	cursor: pointer;
+}
+
 .react-flow__handle {
 	height: 6px;
 	width: 6px;
