@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function About() {
 	return (
-		<div className='px-40 py-10 leading-7'>
+		<div className='sm:px-4 md:px-10 lg:px-20 py-10 leading-7'>
 			<section>
 				<h4 className='text-bold'>About this website</h4>
 				<p>

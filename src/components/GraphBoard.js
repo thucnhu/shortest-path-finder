@@ -123,11 +123,12 @@ export default function GraphBoard() {
 
 	return (
 		<div
-			className='w-full flex md:flex-row flex-col justify-between items-center'
-			style={{ height: '90vh', minHeight: '600px' }}
+			className='w-full flex lg:flex-row flex-col lg:py-0 py-10 px-4 md:px-10 
+			justify-between items-center h-[90vh] min-h-[600px]'
 		>
-			<div className='border-2 border-black rounded-md mx-auto md:w-4/5 w-11/12 h-5/6 justify-center'>
+			<div className='flex flex-col mx-auto w-100 h-5/6 justify-center'>
 				<ReactFlow
+					className='border-2 border-black rounded-md'
 					nodes={nodes}
 					edges={edges}
 					onNodesChange={onNodesChange}
@@ -156,7 +157,8 @@ export default function GraphBoard() {
 					</Button>
 				</div>
 			</div>
-			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
+			<div className='flex lg:flex-col md-flex-row lg:justify-between justify-around 
+						lg:pl-8 lg:h-5/6 sm:h-auto w-full lg:w-fit'>
 				<SummaryTable nodes={nodes} edges={edges} />
 				<VisualizeTable
 					nodes={nodes}
