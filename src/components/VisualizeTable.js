@@ -15,27 +15,30 @@ export default function VisualizeTable({
 	const [endVertex, setEndVertex] = useState('')
 
 	const visualize = () => {
+		setClearStyle()
 		const graphMap = getGraphOf(nodes, edges)
 		const shortestPathId = findShortestPath(graphMap, startVertex, endVertex)
+		console.log('shortest path:' + shortestPathId)
 
-		console.log('shortest path found:' + shortestPathId)
-		setClearDisabled(false)
+		if (shortestPathId !== null) {
+			setClearDisabled(false)
 
-		setNodes(nds =>
-			nds.map(node => {
-				if (shortestPathId.includes(node.id)) {
-					// it's important that you create a new object here
-					// in order to notify react flow about the change
-					node.style = { ...node.style, backgroundColor: '#198754' }
-				}
-				return node
-			})
-		)
+			setNodes(nds =>
+				nds.map(node => {
+					if (shortestPathId.includes(node.id)) {
+						// it's important that you create a new object here
+						// in order to notify react flow about the change
+						node.style = { ...node.style, backgroundColor: '#198754' }
+					}
+					return node
+				})
+			)
 
-		for (let i = 0; i < shortestPathId.length - 1; i++) {
-			let targetNodeId = shortestPathId[i]
-			let sourceNodeId = shortestPathId[i + 1]
-			changeEdgeStyle(edges, targetNodeId, sourceNodeId)
+			for (let i = 0; i < shortestPathId.length - 1; i++) {
+				let targetNodeId = shortestPathId[i]
+				let sourceNodeId = shortestPathId[i + 1]
+				changeEdgeStyle(edges, targetNodeId, sourceNodeId)
+			}
 		}
 	}
 
@@ -48,7 +51,7 @@ export default function VisualizeTable({
 					type='number'
 					value={startVertex}
 					min={nodes ? '1' : '0'}
-					max={nodes.length}
+					max={nodes.length.toString()}
 					className='w-10 bg-transparent border-b-2 border-black pl-2 focus:outline-none'
 					onChange={e => setStartVertex(e.target.value)}
 				/>
@@ -59,6 +62,7 @@ export default function VisualizeTable({
 					type='number'
 					value={endVertex}
 					min='1'
+					max={nodes.length.toString()}
 					className='w-10 bg-transparent border-b-2 border-black pl-2 focus:outline-none'
 					onChange={e => setEndVertex(e.target.value)}
 				/>
