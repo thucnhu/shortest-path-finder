@@ -26,14 +26,29 @@ function getDistance(node1, node2) {
 function getConnectionIds(nodeId, graph) {
 	let edges = graph.getEdges()
 	let ids = []
-	for (let i in edges) {
-		let edge = edges[i]
+	for (let edge of edges.values()) {
 		if (edge.source === nodeId || edge.target === nodeId) {
 			ids.push(edge.id)
 		}
 	}
 
 	return ids
+}
+
+function getEdgeBetweenNodes(edges, startNodeId, endNodeId) {
+	for (let edge of edges.values()) {
+		if ((edge.source === startNodeId && edge.target === endNodeId)
+		|| (edge.source === endNodeId && edge.target === startNodeId))
+			return edge
+	}
+
+	return null
+}
+
+function changeEdgeStyle(edges, targetNodeId, sourceNodeId) {
+	let edge = getEdgeBetweenNodes(edges, targetNodeId, sourceNodeId)
+	edge['animated'] = true
+	edge["style"] = { ...edge.style, stroke: '#198754'}
 }
 
 /**
@@ -82,4 +97,5 @@ function getGraphOf(listNodes, listEdges) {
 	return graph
 }
 
-export { getDistance, getConnectionIds, updateDistances, getGraphOf }
+export { getDistance, getConnectionIds, getEdgeBetweenNodes, changeEdgeStyle, updateDistances, 
+	getGraphOf }

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import ReactFlow, { Controls, Background } from 'react-flow-renderer'
 import {
-	applyEdgeChanges,
-	applyNodeChanges,
+	applyEdgeChanges, applyNodeChanges,
 	addEdge,
+	updateEdge
 } from 'react-flow-renderer'
 import { initialEdges, initialNodes } from '../constant/initialGraph'
 import $ from 'jquery'
@@ -18,6 +18,7 @@ import {
 } from '../utils/graphUtils'
 
 import { DELETE_KEY_CODES } from '../constant/graphConfig'
+import { ConfirmDialog } from './Dialogs'
 
 
 export default function GraphBoard() {
@@ -32,7 +33,8 @@ export default function GraphBoard() {
 
 	const [removeDisabled, setRemoveDisabled] = useState(true)
 	const [clearDisabled, setClearDisabled] = useState(false)
-
+	
+	const [isOpen, setIsOpen] = useState(false)
 
 	// Cache nodes and edges into local storage
 	useEffect(() => {
@@ -63,6 +65,8 @@ export default function GraphBoard() {
 		changes => setEdges(eds => applyEdgeChanges(changes, eds)),
 		[setEdges]
 	)
+
+	const onEdgeUpdate = (oldEdge, newConnection) => setEdges((els) => updateEdge(oldEdge, newConnection, els));
 
 	const onConnect = useCallback(
 		connection => {
@@ -119,6 +123,7 @@ export default function GraphBoard() {
 	}
 
 	const clearBtnClick = () => {
+		// setIsOpen(true)
 		setNodes(initialNodes)
 		setEdges(initialEdges)
 	}
@@ -154,6 +159,7 @@ export default function GraphBoard() {
 					edges={edges}
 					onNodesChange={onNodesChange}
 					onEdgesChange={onEdgesChange}
+					onEdgeUpdate={onEdgeUpdate}
 					onConnect={onConnect}
 					onInit={instance => onGraphInit(instance)}
 					onNodeClick={(event, node) => onNodeClick(node)}
@@ -179,8 +185,13 @@ export default function GraphBoard() {
 			</div>
 			<div className='flex md:flex-col sm:flex-row justify-between md:h-5/6 sm:h-auto w-full md:w-fit'>
 				<SummaryTable nodes={nodes} edges={edges} />
-				<VisualizeTable nodes={nodes} edges={edges} />
+				<VisualizeTable nodes={nodes} edges={edges} setNodes={setNodes} setEdges={setEdges}/>
 			</div>
+
+			<ConfirmDialog
+				isOpen={isOpen}
+				setIsOpen={setIsOpen}
+			/>
 		</div>
 	)
 }
