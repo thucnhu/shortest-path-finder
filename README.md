@@ -3,6 +3,8 @@
 This website is an animated tool that helps find the shortest
 path of a given graph using different algorithms, including Dijkstra's algorithm (more will be updated).
 
+Try out the app [here](https://thucnhu.github.io/shortest-path-finder/).
+
 ## Technologies used
 
 -  [ReactJS](https://reactjs.org/)
