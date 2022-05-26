@@ -1,8 +1,8 @@
 .react-flow__node {
-	width: 25px; !important
-	height: 25px;
-	border-radius: 5aala !important
-	font-size: 0.75rem; !important
+	width: 25px !important;
+	height: 25px !important;
+	border-radius: 50% !important;
+	font-size: 0.75rem !important;
 	justify-content: center;
 	align-items: center;
 	display: flex;
